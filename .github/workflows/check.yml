@@ -1,0 +1,47 @@
+name: check
+
+on:
+  pull_request:
+    paths-ignore:
+      - '**.md'
+  push:
+    paths-ignore:
+      - '**.md'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Setup Node 14.17.2
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14.17.2'
+          cache: 'npm'
+
+      # key に完全一致するキャッシュが存在したときは true、存在しなかったときは false
+      # restore-keys でマッチングしても false
+      - name: Cache node modules
+        uses: actions/cache@v2
+        env:
+          cache-name: cache-node-modules
+        with:
+          # キャッシュとして保存＆復元するディレクトリのパス
+          # 絶対パスか working directory からの相対パスを指定する
+          path: ~/.npm
+          # キャッシュを保存＆復元するためのキー
+          # 最大 512 文字で、それ以上の長さの文字列を渡すとエラーになるとのこと
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+          # キャッシュ復元時に key に完全に一致するキャッシュが存在しなかったときに使われるキーのリスト (optional)
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+            ${{ runner.os }}-build-
+            ${{ runner.os }}-
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Test and Lint
+        run: npm test

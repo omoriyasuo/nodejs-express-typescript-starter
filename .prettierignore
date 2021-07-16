@@ -1,0 +1,5 @@
+.vscode/
+.gitignore
+package*.json
+node_modules/
+*.md

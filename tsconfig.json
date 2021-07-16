@@ -1,0 +1,14 @@
+{
+  "extends": "@tsconfig/node14/tsconfig.json",
+  "compilerOptions": {
+    "outDir": "./dist",
+    "baseUrl": ".",
+    "paths": {
+      "@core/*": ["./src/core/*"],
+      "@database/*": ["./src/database/*"],
+      "@helpers/*": ["./src/helpers/*"],
+      "@routes/*": ["./src/routes/*"],
+      "@serializer/*": ["./src/serializer/*"]
+    }
+  }
+}
