@@ -20,7 +20,11 @@
   "homepage": "https://github.com/omoriyasuo/nodejs-express-typescript-starter#readme",
   "scripts": {
     "dev": "nodemon --watch 'src/**.ts' --exec 'ts-node -r tsconfig-paths/register' src/server.ts",
-    "build": "tsc -p tsconfig.json",
+    "start": "npm run build && npm run serve",
+    "serve": "node -r dotenv/config dist/src/server.js",
+    "build": "npm run clean && npm run build-ts",
+    "build-ts": "tsc -p tsconfig.json",
+    "clean": "rimraf ./dist",
     "lint": "run-p -l -c --aggregate-output lint:*",
     "lint:eslint": "eslint .",
     "lint:prettier": "prettier --check .",
