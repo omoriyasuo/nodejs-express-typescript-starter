@@ -1,5 +1,8 @@
 .vscode/
 .gitignore
+dist/
+jest.*
 package*.json
 node_modules/
 *.md
+*.json
